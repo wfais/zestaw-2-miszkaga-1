@@ -1,18 +1,70 @@
 name: Autograding Tests
-
-on: [push]
-
+'on':
+- push
+- repository_dispatch
 permissions:
-  contents: read
   checks: write
-
+  actions: read
+  contents: read
 jobs:
   run-autograding-tests:
     runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - run: pip install -r requirements.txt
-      - uses: education/autograding@v1
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Test 2 Zadanie 1
+      id: test-2-zadanie-1
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test 2 Zadanie 1
+        setup-command: pip install -r requirements.txt
+        command: python -m pytest -q ZADANIE1/tests
+        timeout: 10
+        max-score: 10
+    - name: Test 2 Zadanie 2
+      id: test-2-zadanie-2
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test 2 Zadanie 2
+        setup-command: pip install -r requirements.txt
+        command: python -m pytest -q ZADANIE2/tests
+        timeout: 10
+        max-score: 10
+    - name: Test 2 Zadanie 3
+      id: test-2-zadanie-3
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test 2 Zadanie 3
+        setup-command: pip install -r requirements.txt
+        command: python -m pytest -q ZADANIE3/tests
+        timeout: 10
+        max-score: 10
+    - name: Test 2 Zadanie 4
+      id: test-2-zadanie-4
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test 2 Zadanie 4
+        setup-command: pip install -r requirements.txt
+        command: python -m pytest -q ZADANIE4/tests
+        timeout: 10
+        max-score: 10
+    - name: Test 2 Zadanie 5
+      id: test-2-zadanie-5
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test 2 Zadanie 5
+        setup-command: pip install -r requirements.txt
+        command: python -m pytest -q ZADANIE5/tests
+        timeout: 10
+        max-score: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        TEST-2-ZADANIE-1_RESULTS: "${{steps.test-2-zadanie-1.outputs.result}}"
+        TEST-2-ZADANIE-2_RESULTS: "${{steps.test-2-zadanie-2.outputs.result}}"
+        TEST-2-ZADANIE-3_RESULTS: "${{steps.test-2-zadanie-3.outputs.result}}"
+        TEST-2-ZADANIE-4_RESULTS: "${{steps.test-2-zadanie-4.outputs.result}}"
+        TEST-2-ZADANIE-5_RESULTS: "${{steps.test-2-zadanie-5.outputs.result}}"
+      with:
+        runners: test-2-zadanie-1,test-2-zadanie-2,test-2-zadanie-3,test-2-zadanie-4,test-2-zadanie-5
