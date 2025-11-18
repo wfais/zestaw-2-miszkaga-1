@@ -1,5 +1,5 @@
 import pytest
-from ZADANIE3.zadanie3 import rzymskie_na_arabskie, arabskie_na_rzymskie
+from ZADANIE2.zadanie2 import rzymskie_na_arabskie, arabskie_na_rzymskie
 
 def test_konwersja_minimalna_rzymska():
     assert rzymskie_na_arabskie("I") == 1
